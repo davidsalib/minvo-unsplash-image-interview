@@ -36,7 +36,7 @@ Your goal is to complete the Unsplash Image Search application by implementing t
 
 ### Getting Started
 
-1. Clone the repository: `git clone https://github.com/davidsalibminvo-unsplash-image-interview.git`
+1. Clone the repository: `git clone https://github.com/davidsalib/minvo-unsplash-image-interview.git`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm start`
 4. Open the app in a browser: `http://localhost:3000`
