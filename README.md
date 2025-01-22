@@ -33,3 +33,10 @@ Your goal is to complete the Unsplash Image Search application by implementing t
 - Add image click to view larger version
 - Implement responsive design
 - Add debounced search to search when user pauses typing
+
+### Getting Started
+
+1. Clone the repository: `git clone https://github.com/davidsalibminvo-unsplash-image-interview.git`
+2. Install dependencies: `npm install`
+3. Start the development server: `npm start`
+4. Open the app in a browser: `http://localhost:3000`
