@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useUnsplashSearch } from "./hooks/useUnsplashSearch";
+import ImageCard from "./components/ImageCard";
 
 function App() {
   // State to manage the search input
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   // TODO: Implement search functionality using useUnsplashSearch hook
-  // const { images, loading, error } = useUnsplashSearch(searchQuery);
+  const { images, isLoading, error } = useUnsplashSearch(searchQuery);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -42,17 +43,18 @@ function App() {
           </div>
         </form>
 
-        {/* Image Gallery Container */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Array(9)
-            .fill(1)
-            .map((_, index) => (
-              <div
-                key={`img-placeholder-${index}`}
-                className="aspect-square bg-gray-800 rounded-lg animate-pulse"
-              />
-            ))}
-        </div>
+        {
+          isLoading ?
+            <p>Loading...</p> :
+            error ? <p>An error occured</p> :
+              (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {images?.map(image => (
+                    <ImageCard key={`img-placeholder-${image.slug}`} image={image} />
+                  ))}
+                </div>
+              )
+        }
       </div>
     </div>
   );
