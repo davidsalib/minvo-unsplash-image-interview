@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useUnsplashSearch } from "./hooks/useUnsplashSearch";
+import UnsplachImage from "./components/unsplachImage";
+import ImagesContainer from "./components/imagesContainer";
 
 function App() {
   // State to manage the search input
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   // TODO: Implement search functionality using useUnsplashSearch hook
-  // const { images, loading, error } = useUnsplashSearch(searchQuery);
+  const { images, loading, error } = useUnsplashSearch(searchQuery);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -43,16 +45,12 @@ function App() {
         </form>
 
         {/* Image Gallery Container */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Array(9)
-            .fill(1)
-            .map((_, index) => (
-              <div
-                key={`img-placeholder-${index}`}
-                className="aspect-square bg-gray-800 rounded-lg animate-pulse"
-              />
-            ))}
-        </div>
+        <ImagesContainer
+          searchQuery={searchQuery}
+          imgsData={images?.results || []}
+          isLoading={loading}
+          error={error}
+        />
       </div>
     </div>
   );
