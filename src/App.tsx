@@ -6,7 +6,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   // TODO: Implement search functionality using useUnsplashSearch hook
-  // const { images, loading, error } = useUnsplashSearch(searchQuery);
+  const { images, isLoading, error } = useUnsplashSearch(searchQuery);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -32,26 +32,44 @@ function App() {
               value={searchQuery}
               onChange={handleSearchChange}
               className="flex-1 px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              disabled={isLoading}
             />
             <button
               type="submit"
               className="px-6 py-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
-              Search
+              {isLoading ? "Loading..." : "Search"}
             </button>
           </div>
         </form>
 
         {/* Image Gallery Container */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Array(9)
-            .fill(1)
-            .map((_, index) => (
+          {isLoading ? (
+            Array(9)
+              .fill(1)
+              .map((_, index) => (
+                <div
+                  key={`img-placeholder-${index}`}
+                  className="aspect-square bg-gray-800 rounded-lg animate-pulse"
+                />
+              ))
+          ) : !error ? (
+            images.map((image) => (
               <div
-                key={`img-placeholder-${index}`}
-                className="aspect-square bg-gray-800 rounded-lg animate-pulse"
-              />
-            ))}
+                key={image.urls.regular}
+                className="aspect-square bg-gray-800 rounded-lg"
+              >
+                <img
+                  src={image.urls.regular}
+                  alt={image.alt_description}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+              </div>
+            ))
+          ) : (
+            <div className="bg-red-200 rounded-lg">{error}</div>
+          )}
         </div>
       </div>
     </div>
