@@ -19,6 +19,7 @@ Your goal is to complete the Unsplash Image Search application by implementing t
 ### Requirements
 
 - Use TypeScript
+- Please use Tailwind for styling if you are familiar, otherwise use what you are comfortable with
 - Show loading state during image fetch
 - Display images in a responsive grid
 - Handle empty search queries
