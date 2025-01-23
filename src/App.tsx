@@ -14,8 +14,6 @@ function App() {
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // TODO: Trigger search when form is submitted
-    // Hint: Call the search function from the custom hook
   };
 
   return (
@@ -46,9 +44,6 @@ function App() {
 
         {/* Image Gallery Container */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* TODO: Render images from Unsplash API */}
-
-          {/* use loading state to show this */}
           {Array(9)
             .fill(1)
             .map((_, index) => (

@@ -25,13 +25,14 @@ Your goal is to complete the Unsplash Image Search application by implementing t
 
 ### Hints
 
-- Use `axios` or `tanQuery` for API calls
+- You are free to search the internet for anything, but not use ChatGPT or other AI tools
+- Use `axios` or `fetch` for API calls
 - Consider pagination or infinite scroll for image results
 
 ### Bonus Points
 
 - Add image click to view larger version
-- Implement responsive design
+- Implement responsive mobile design
 - Add debounced search to search when user pauses typing
 
 ### Getting Started
