@@ -1,11 +1,23 @@
 import { useState, useEffect } from "react";
-
-// TODO: choose anAPI Framework
-// import axios from "axios";
-// import { QueryClient } from "@tanstack/react-query";
+import { useDebounce } from "./useDebounce";
+import axios from "axios";
 
 interface UnsplashImage {
   // TODO: Define the UnsplashImage interface
+  alt_description: string;
+  links: {
+    download: string;
+    download_location: string;
+    html: string;
+    self: string;
+  };
+  urls: {
+    full: string;
+    raw: string;
+    regular: string;
+    small: string;
+    thumb: string;
+  };
 }
 
 // Unplash Docs: https://unsplash.com/documentation
@@ -13,21 +25,47 @@ const UNSPLASH_ACCESS_KEY = "6FfROqtHfJTUW5xwupX5ghiE_M4x1xDOPJyvJ1S_41I";
 
 export const useUnsplashSearch = (query: string) => {
   // TODO: Implement state management for images, loading, and error states
+  const [images, setImages] = useState<UnsplashImage[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const debouncedQuery = useDebounce(query, 500); // 500ms delay
 
   useEffect(() => {
-    // TODO: Implement search functionality
-    // 1. Check if query is not empty
-    // 2. Set loading to true
-    // 3. Fetch images from Unsplash API
-    // 4. Update images state
-    // 5. Handle any errors
-    // 6. Set loading to false
-  }, [query]);
+    const fetchImages = async () => {
+      setIsLoading(true);
+
+      try {
+        const { data } = await axios.get(
+          "https://api.unsplash.com/search/photos",
+          {
+            params: {
+              query: debouncedQuery,
+              client_id: UNSPLASH_ACCESS_KEY,
+            },
+          }
+        );
+
+        if (data) {
+          setImages(data.results);
+          setError(null);
+        }
+      } catch (error) {
+        console.error("Error fetching images:", error);
+        setError("Failed to fetch images");
+      }
+
+      setIsLoading(false);
+    };
+    if (debouncedQuery.length > 0) {
+      fetchImages();
+    }
+  }, [debouncedQuery]);
 
   // TODO: Return the necessary states and functions
   return {
-    // images,
-    // loading,
-    // error
+    images,
+    isLoading,
+    error,
   };
 };
