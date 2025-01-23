@@ -1,18 +1,37 @@
 import { useState, useEffect } from "react";
+import { searchForUnsplachImage } from "../api";
 
 // TODO: choose anAPI Framework
 // import axios from "axios";
-// import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 
-interface UnsplashImage {
-  // TODO: Define the UnsplashImage interface
+export interface UnsplashImageResponeInterface {
+  results: UnsplashImageInterface[];
+}
+
+export interface UnsplashImageInterface {
+  id: string;
+  urls: {
+    full: string;
+    regular: string;
+  };
 }
 
 // Unplash Docs: https://unsplash.com/documentation
-const UNSPLASH_ACCESS_KEY = "6FfROqtHfJTUW5xwupX5ghiE_M4x1xDOPJyvJ1S_41I";
 
 export const useUnsplashSearch = (query: string) => {
   // TODO: Implement state management for images, loading, and error states
+  const {
+    data,
+    isLoading: loading,
+    error,
+  } = useQuery<UnsplashImageResponeInterface, boolean>({
+    queryKey: ["searchImg", query],
+    queryFn: () => {
+      return searchForUnsplachImage(query);
+    },
+    retry: false,
+  });
 
   useEffect(() => {
     // TODO: Implement search functionality
@@ -26,8 +45,8 @@ export const useUnsplashSearch = (query: string) => {
 
   // TODO: Return the necessary states and functions
   return {
-    // images,
-    // loading,
-    // error
+    images: data,
+    loading,
+    error,
   };
 };
